@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+template <typename F>
+string BruteForce(F check) {
+    // верните строку str, для которой check(str) будет true
+     string pro = "AAAAA";
+
+    // Перебираем все комбинации
+    while (true) {
+        // Проверяем текущий пароль
+        if (check(pro)) {
+            return pro;
+        }
+
+        // Увеличиваем пароль как число в системе счисления с основанием 26
+        int pos = 4; // Начинаем с последней позиции
+        while (pos >= 0) {
+            if (pro[pos] < 'Z') {
+                pro[pos]++;
+                break;
+            } else {
+                pro[pos] = 'A'; // Сбрасываем текущую позицию
+                pos--; // Переходим к предыдущей позиции
+            }
+        }
+
+        // Если дошли до первой позиции и сбросили её, значит перебрали все комбинации
+        if (pos < 0) {
+            break;
+        }
+    }
+
+    // Если пароль не найден, возвращаем пустую строку
+    return "";
+
+}
+
+int main() {
+    string pass = "ARTUR"s;
+    auto check = [pass](const string& s) {
+        return s == pass;
+    };
+    cout << BruteForce(check) << endl;
+}
